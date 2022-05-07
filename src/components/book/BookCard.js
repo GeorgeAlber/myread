@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import BookShelfChanger from "./BookShelfChanger";
 
 const BookCard = ({ book, onChangeShelf }) => {
@@ -17,10 +17,15 @@ const BookCard = ({ book, onChangeShelf }) => {
           <BookShelfChanger book={book} onChangeShelf={onChangeShelf} />
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.author}</div>
+        <div className="book-authors">{book.authors}</div>
       </div>
     </li>
   );
+};
+
+BookCard.propTypes = {
+  book: PropTypes.object.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
 };
 
 export default BookCard;

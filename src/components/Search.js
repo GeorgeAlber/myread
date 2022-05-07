@@ -1,16 +1,17 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import BookCard from "./book/BookCard";
 import * as BooksAPI from "../BooksAPI";
 
-const Search = ({ onChangeShelf }) => {
-  const [books, setBooks] = useState([]);
+const Search = ({ userShelfBooks, onChangeShelf }) => {
+  const [booksResult, setBooksResult] = useState([]);
 
   const updateQuery = (query) => {
     if (query.length > 0) {
       getSearchResult(query);
     } else {
-      setBooks([]);
+      setBooksResult([]);
     }
   };
 
@@ -18,9 +19,19 @@ const Search = ({ onChangeShelf }) => {
     const getSearchBooks = async () => {
       BooksAPI.search(query).then((books) => {
         if (books.error) {
-          setBooks([]);
+          setBooksResult([]);
         } else {
-          setBooks(books);
+          let test = books.map((book) => {
+            userShelfBooks.map((ub) => {
+              if (ub.id === book.id) {
+                book.shelf = ub.shelf;
+              }
+              return ub;
+            });
+            return book;
+          });
+
+          setBooksResult(test);
         }
       });
     };
@@ -43,13 +54,18 @@ const Search = ({ onChangeShelf }) => {
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {books.map((book) => (
+          {booksResult.map((book) => (
             <BookCard key={book.id} book={book} onChangeShelf={onChangeShelf} />
           ))}
         </ol>
       </div>
     </div>
   );
+};
+
+Search.propTypes = {
+  userShelfBooks: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
 };
 
 export default Search;

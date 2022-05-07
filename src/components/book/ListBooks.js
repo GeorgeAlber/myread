@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ShelfComponent from "../Shelf";
 
@@ -25,6 +25,12 @@ const ListBooks = ({ books, bookshelves, onChangeShelf }) => {
       </div>
     </div>
   );
+};
+
+ListBooks.propTypes = {
+  books: PropTypes.array.isRequired,
+  bookshelves: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
 };
 
 export default ListBooks;

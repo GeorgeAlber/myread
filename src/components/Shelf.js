@@ -1,7 +1,7 @@
-import React from "react";
+import PropTypes from "prop-types";
 import BookCard from "./book/BookCard";
 
-const ShelfComponent = ({ shelf, books, onChangeShelf }) => {
+const Shelf = ({ shelf, books, onChangeShelf }) => {
   const shelfBooks = books.filter((b) => b.shelf === shelf.key);
   return (
     <div className="bookshelf">
@@ -17,4 +17,10 @@ const ShelfComponent = ({ shelf, books, onChangeShelf }) => {
   );
 };
 
-export default ShelfComponent;
+Shelf.propTypes = {
+  shelf: PropTypes.object.isRequired,
+  books: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
+};
+
+export default Shelf;
